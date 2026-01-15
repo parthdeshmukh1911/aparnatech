@@ -144,25 +144,38 @@
                 <p>Have a project in mind? Call me or fill the form.</p>
                 <div class="info-item">
                     <i class="fab fa-whatsapp"></i>
-                    <span>+91 XXXXXXXXXX</span>
+                    <span>+91 7218087907</span>
                 </div>
-                <div class="info-item">
+                <!-- <div class="info-item">
                     <i class="fas fa-envelope"></i>
                     <span>contact@aparnatech.com</span>
-                </div>
+                </div> -->
             </div>
 
-            <form id="leadForm" class="contact-form">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="tel" id="phone" placeholder="Phone Number" required>
-                <select id="businessType">
-                    <option value="Shop">Retail / Shop</option>
-                    <option value="Doctor">Doctor / Professional</option>
-                    <option value="RealEstate">Real Estate / Construction</option>
-                    <option value="Other">Other</option>
-                </select>
-                <button type="submit" class="btn-submit">Request Call Back</button>
-                <p id="formStatus"></p> </form>
+            <form action="https://api.web3forms.com/submit" method="POST" id="leadForm" class="contact-form">
+            
+            <input type="hidden" name="access_key" value="6da1684c-5de1-4d50-9c76-5023bd2ba9ca">
+            
+            <input type="hidden" name="subject" value="New Lead from AparnaTech Website">
+            <input type="hidden" name="from_name" value="AparnaTech Website">
+
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+            
+            <select name="business_type">
+                <option value="Shop">Retail / Shop</option>
+                <option value="Doctor">Doctor / Professional</option>
+                <option value="RealEstate">Real Estate / Construction</option>
+                <option value="Other">Other</option>
+            </select>
+            
+            <textarea name="message" placeholder="Optional Message" rows="3" style="padding:1rem; border:1px solid #E2E8F0; border-radius:8px; font-family:inherit;"></textarea>
+
+            <button type="submit" class="btn-submit">Request Call Back</button>
+            <p id="formStatus" style="text-align: center; margin-top: 10px; font-size: 0.9rem;"></p>
+        </form>
         </div>
     </section>
 
