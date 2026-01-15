@@ -88,14 +88,47 @@ html { scroll-behavior: smooth; }
 /* CATEGORIES */
 .categories-section { padding: 3rem 5%; }
 .section-title { font-size: 1.5rem; margin-bottom: 1.5rem; }
-.category-grid { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: none; }
+.category-grid { 
+    display: flex; 
+    justify-content: center;
+    gap: 3rem; 
+    flex-wrap: wrap;
+}
 .cat-card {
-    min-width: 100px; text-align: center; cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 1rem;
+    border-radius: 12px;
+    min-width: 120px;
+}
+.cat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(12, 131, 31, 0.05);
+}
+.cat-card img { 
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin-bottom: 1rem; 
+    border: 3px solid transparent;
     transition: 0.3s;
 }
-.cat-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; border: 2px solid transparent; }
-.cat-card:hover img { border-color: var(--primary); transform: scale(1.05); }
-.cat-card span { font-size: 0.85rem; font-weight: 600; color: var(--gray); }
+.cat-card:hover img { 
+    border-color: var(--primary); 
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(12, 131, 31, 0.3);
+}
+.cat-card span { 
+    font-size: 1rem; 
+    font-weight: 700; 
+    color: var(--dark);
+    margin-top: 0.5rem;
+}
 
 /* PRODUCTS */
 .product-section { padding: 0 5%; }
@@ -292,6 +325,9 @@ html { scroll-behavior: smooth; }
     .hero-image { margin-top: 2rem; }
     .hero-image img { width: 300px; }
     .categories-section, .product-section { padding: 2rem 4%; }
+    .category-grid { gap: 2rem; }
+    .cat-card { min-width: 100px; }
+    .cat-card img { width: 80px; height: 80px; }
     .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .product-card { padding: 0.5rem; }
     .product-img-box { height: 100px; }
@@ -304,6 +340,10 @@ html { scroll-behavior: smooth; }
 
 @media (max-width: 480px) {
     .hero h1 { font-size: 1.8rem; }
+    .category-grid { gap: 1.5rem; }
+    .cat-card { min-width: 80px; padding: 0.5rem; }
+    .cat-card img { width: 70px; height: 70px; }
+    .cat-card span { font-size: 0.9rem; }
     .product-grid { gap: 8px; }
     .product-card { padding: 0.4rem; }
     .product-details h3 { font-size: 0.85rem; height: 35px; }

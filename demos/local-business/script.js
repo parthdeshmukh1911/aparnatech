@@ -180,7 +180,15 @@ function checkoutWhatsApp() {
     showToast('Redirecting to WhatsApp...', 'success');
 }
 
-// 10. INITIALIZE
+// 10. SCROLL TO SECTION
+function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// 11. INITIALIZE
 document.addEventListener('DOMContentLoaded', function() {
     updateCartUI();
 });
