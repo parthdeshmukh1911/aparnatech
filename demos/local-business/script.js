@@ -1,40 +1,100 @@
-document.addEventListener('DOMContentLoaded', () => {
+/* ========================
+   CART LOGIC (Frontend Only)
+   ======================== */
+
+let cart = [];
+let totalAmount = 0;
+
+// 1. ADD TO CART FUNCTION
+function addToCart(name, price) {
+    // Check if item exists
+    let existingItem = cart.find(item => item.name === name);
     
-    // 1. Mobile Menu Toggle
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ name: name, price: price, quantity: 1 });
+    }
 
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        // Toggle between hamburger and close icon
-        if(navLinks.classList.contains('active')) {
-            hamburger.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-        }
+    updateCartUI();
+    showFloatingCart();
+    
+    // Optional: Vibration for mobile feel
+    if(navigator.vibrate) navigator.vibrate(50);
+}
+
+// 2. UPDATE UI (Counters & Totals)
+function updateCartUI() {
+    totalAmount = 0;
+    let totalItems = 0;
+
+    // Reset Cart HTML
+    const cartContainer = document.getElementById('cartItems');
+    cartContainer.innerHTML = '';
+
+    cart.forEach(item => {
+        totalAmount += item.price * item.quantity;
+        totalItems += item.quantity;
+
+        // Add HTML for Item in Modal
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item-row');
+        itemDiv.innerHTML = `
+            <div>
+                <strong>${item.name}</strong> <br>
+                <small>₹${item.price} x ${item.quantity}</small>
+            </div>
+            <strong>₹${item.price * item.quantity}</strong>
+        `;
+        cartContainer.appendChild(itemDiv);
     });
 
-    // Close menu when link is clicked
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-        });
-    });
+    // Update Nav Badge
+    document.querySelector('.cart-count').textContent = totalItems;
 
-    // 2. THE DEMO TRIGGER (Crucial for portfolio)
-    // This intercepts clicks on "Order" buttons to show it's a demo.
-    const demoTriggers = document.querySelectorAll('.demo-trigger');
+    // Update Floating Bar
+    document.getElementById('fc-count').textContent = `${totalItems} Items`;
+    document.getElementById('fc-total').textContent = `₹${totalAmount}`;
 
-    demoTriggers.forEach(trigger => {
-        trigger.addEventListener('click', (e) => {
-            // If it's an anchor tag with '#' href, prevent default jump
-            if(trigger.tagName === 'A' && trigger.getAttribute('href') === '#') {
-                e.preventDefault();
-            }
-            
-            // The Sales Pitch Alert
-            alert("👨‍💻 DEMO MODE\n\nIn a real website, clicking this would open WhatsApp with the product/order pre-filled so the customer can send it to the shop owner instantly.\n\nSimple and fast!");
-        });
+    // Update Bill Total
+    document.getElementById('billTotal').textContent = `₹${totalAmount}`;
+
+    // Handle Empty Cart
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<p class="empty-msg">Your cart is empty 😞</p>';
+        document.getElementById('floatingCart').classList.remove('visible');
+    }
+}
+
+// 3. SHOW FLOATING CART
+function showFloatingCart() {
+    const floatingCart = document.getElementById('floatingCart');
+    if (cart.length > 0) {
+        floatingCart.classList.add('visible');
+    }
+}
+
+// 4. OPEN / CLOSE MODAL
+function openCart() {
+    document.getElementById('cartModal').classList.add('open');
+}
+
+function closeCart() {
+    document.getElementById('cartModal').classList.remove('open');
+}
+
+// 5. WHATSAPP CHECKOUT (The Magic)
+function checkoutWhatsApp() {
+    if (cart.length === 0) return alert("Cart is empty!");
+
+    let message = "👋 Hi, I want to order:\n\n";
+    cart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name} - ${item.quantity} qty\n`;
     });
-});
+    message += `\n💰 *Total Amount: ₹${totalAmount}*`;
+    message += `\n📍 Please deliver to my address.`;
+
+    // Encode URL
+    const url = `https://wa.me/919999999999?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
